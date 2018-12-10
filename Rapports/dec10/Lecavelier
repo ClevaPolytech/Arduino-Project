@@ -1,0 +1,20 @@
+De 13h30 à 15h.
+Ce que j’ai fait avant : 
+•	Phase de recherche pour savoir ce qui a déjà été fait et comment on peut faire. 
+•	Représenter et imprimer la pièce monnayeur qui trie les pièces.
+•	Représenter le projet en 3D pour voir comment vont s’organiser les différents éléments
+•	Télécharger les différentes logiciels utiles (Auto Desk Inventor, Inkscape…)
+Pendant que Clément finissait de faire le monnayeur, en gérant le système de comptage de 
+pièce, je me suis occupée de faire les GitHub et de 
+tout mettre en ligne dessus : représentation 3D du projet, objectif final, 
+présentation rapide de ce qu’on veut faire. J’ai aussi aidé Clément à calibrer 
+les capteur IR. Ce calibrage est important pour savoir comment on va les installer 
+dans la boîte, et pour qu’ils se déclenchent uniquement quand une pièce passe devant 
+(et non pas que le mur du distributeur soit capté).
+
+
+De 15h à 16h30.
+	On s’est fixé sur comment utiliser les capteurs IR : on va les mettre dans les 
+  petites réglettes qui vont guider les pièces, et la pièce va passer sur le détecteur, 
+  le déclenchant à tous les coups. Ensuite, j’ai commencé à prendre en main le logiciel
+  Inkscape. 
