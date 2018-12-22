@@ -13,6 +13,10 @@ double newcred=-1;
 unsigned long Temps;
 long intervalle;
 long chrono;
+int val1;
+int val2;
+int val3;
+int val4;
 
 
 
@@ -65,24 +69,50 @@ void afficheCredit(){ //affiche le nombre de crédit actuellement
   }
 
 void checkBouton(){
-  val1=digitalRead(bouton1);
-  val2=digitalRead(bouton2);
-  val3=digitalRead(bouton3);
-  val4=digitalRead(bouton4);
+   val1=digitalRead(bouton1);
+   val2=digitalRead(bouton2);
+   val3=digitalRead(bouton3);
+   val4=digitalRead(bouton4);
   }
 
+void ecranErreur(){
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Il manque ");
+  lcd.print(prix-credit);
+  lcd.print(" euros");  
+}
+
+void ecranAchat(){
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Merci pour");
+  lcd.setCursor(0,1);
+  lcd.print("votre achat");}
+
+void erreurAchat(){
+  checkBouton();
+  if(credit<prix){
+    if(val1==HIGH||val2==LOW||val3==HIGH||val4==HIGH){
+      ecranErreur();}
+    }
+  }
+  
 void achat(){
   if (credit>=prix){
     checkBouton();
-    if (val1==LOW){validation=1;}
+    if (val1==HIGH){validation=1;}
     else if(val2==LOW){validation=2;}
-    else if(val3==LOW){validation=3;}
-    else if(val4==LOW){validation=4;}
+    else if(val3==HIGH){validation=3;}
+    else if(val4==HIGH){validation=4;}
     else {validation=0;}
-
-      if (validation!=0){credit=credit-prix;}
-    }
+      
+      if (validation!=0){credit=credit-prix;
+        ecranAchat();
+        delay(1000);
+        setupEcran(); }
   }
+}
 
 void setup() {
   pinMode(bouton1, INPUT);
