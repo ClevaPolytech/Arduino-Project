@@ -30,8 +30,8 @@ void setupEcran(){ //initialise l'écran de bienvenue
 
 
 void temps(){
-  intervalle=millis()-chrono;
-  if (credit>0&&intervalle>30000){
+  intervalle=millis()-chrono;//intervalle = temps actuel - temps du chrono
+  if (credit>0&&intervalle>30000){//s'il y a des crédits et au bout d'un certain intervalle de temps
       credit=0;
       setupEcran();
       }
@@ -54,7 +54,7 @@ void checkPiece(){ //verifie si une piece est insérée dans la machine
   
           Serial.print(credit);
           Serial.println(" euros");
-          chrono=millis();
+          chrono=millis();//lance le chrono (ref fonction "temps")
           delay(1000);
           }
        }
@@ -68,33 +68,35 @@ void afficheCredit(){ //affiche le nombre de crédit actuellement
     lcd.print(credit);}
   }
 
-void checkBouton(){
+void checkBouton(){//vérifie si un bouton a été préssé
    val1=digitalRead(bouton1);
    val2=digitalRead(bouton2);
    val3=digitalRead(bouton3);
    val4=digitalRead(bouton4);
   }
 
-void ecranErreur(){
+void ecranErreur(){//affiche le nombre de crédits manquant
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("Il manque ");
+  lcd.setCursor(0,1);
   lcd.print(prix-credit);
-  lcd.print(" euros");  
+  lcd.print(" euro(s)");  
 }
 
-void ecranAchat(){
+void ecranAchat(){//affiche le message de confirmation d'achat.
   lcd.clear();
   lcd.setCursor(0,0);
   lcd.print("Merci pour");
   lcd.setCursor(0,1);
   lcd.print("votre achat");}
 
-void erreurAchat(){
+void erreurAchat(){//traite le cas dans lequel il manque des crédits pour un achat.
   checkBouton();
   if(credit<prix){
     if(val1==HIGH||val2==LOW||val3==HIGH||val4==HIGH){
-      ecranErreur();}
+      ecranErreur();
+      }
     }
   }
   
@@ -108,6 +110,7 @@ void achat(){
     else {validation=0;}
       
       if (validation!=0){credit=credit-prix;
+      
         ecranAchat();
         delay(1000);
         setupEcran(); }
@@ -119,11 +122,6 @@ void setup() {
   pinMode(bouton2, INPUT);
   pinMode(bouton3, INPUT);
   pinMode(bouton4, INPUT);
-  pinMode(4,INPUT); //detecte piece 10 cent
-  pinMode(3,INPUT); //detecte piece 20 cent
-  pinMode(2,INPUT); //detecte piece 1 euro
-  pinMode(1,INPUT); //detecte piece de 50 cent
-  pinMode(0,INPUT); //detecte piece de 2 euros
   lcd.begin(16,2);
   setupEcran();
   Serial.begin(9600);
@@ -134,5 +132,6 @@ void loop() {
   afficheCredit();
   newcred=credit;
   achat();
+  erreurAchat();
   temps();
       }
