@@ -1,7 +1,7 @@
-
 #include <LiquidCrystal.h>
 #include <Stepper.h>
 #include <Adafruit_NeoPixel.h>
+
 #define IN1 22
 #define IN2 23
 #define IN3 24
@@ -22,6 +22,7 @@
 #define IN15 36
 #define IN16 37//moteur4
 
+char Data;
 int temp =5;
 int m=0;
 int nombreDePas=32*64;
@@ -65,6 +66,33 @@ void temps(){
       credit=0;
       setupEcran();
       }
+  }
+
+void bluetooth(){
+  if (Serial1.available()){Data=Serial1.read();
+  Serial.print(Data);
+    switch(Data){
+      case 'A':
+      credit=credit+2;
+      break;
+      case 'B':
+      credit=credit+0.5;
+      break;
+      case 'C':
+      credit=credit+1;
+      break;
+      case 'D':
+      credit=credit+0.2;
+      break;
+      case 'E':
+      credit=credit+0.1;
+      break;
+      case 'F':
+      credit=0;
+      setupEcran();
+      break;
+      }
+    }
   }
 
 void checkPiece(){ //verifie si une piece est insérée dans la machine
@@ -322,6 +350,9 @@ void setup() {
   lumiere(223,0,0);
   strip.show();
   Serial.begin(9600);
+  Serial.println("Bonjour -Pret pour les commandes AT");
+  Serial1.begin(9600);
+
 
 }
 
@@ -363,12 +394,13 @@ void loop(){
     // Fade IN
     for(int k = 0; k < 256; k++) { 
   checkPiece();
+  bluetooth();
   afficheCredit();
   newcred=credit;
   achat();
   erreurAchat();
   resetLumiereBouton();
-  temps();
+  //temps();
       switch(j) { 
         case 0: setAll(k,0,0); break;
         case 1: setAll(0,k,0); break;
@@ -380,12 +412,13 @@ void loop(){
     // Fade OUT
     for(int k = 255; k >= 0; k--) { 
   checkPiece();
+  bluetooth();
   afficheCredit();
   newcred=credit;
   achat();
   erreurAchat();
   resetLumiereBouton();
-  temps();
+  //temps();
       switch(j) { 
         case 0: setAll(k,0,0); break;
         case 1: setAll(0,k,0); break;
